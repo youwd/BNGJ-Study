@@ -1,0 +1,14 @@
+启动命令：node index.js
+文件结构：
+   * data 测试要清理的数据
+   * config.json 配置文件
+   * disk-director.js  核心检测代码
+   * index.js 测试调用核心代码
+
+配置文件参数说明：
+  "cleanPath":"要清理的文件夹",
+  "maxValue": "清理阈值，大于该值则执行清理",
+  "unit": "清理阈值单位",
+  "deleteFileExtension": "要删除文件的后缀名",
+  "isDeleteSubfolder": "是否删除子文件夹",
+  "noDeleteLastTime":"文件修改时间大于该时间的不删除"

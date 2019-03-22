@@ -1,0 +1,8 @@
+{
+    "cleanPath":"./data",
+    "maxValue": 2000,
+    "unit": "M",
+    "deleteFileExtension": ["pdf", "png"],
+    "isDeleteSubfolder": true,
+    "noDeleteLastTime":"2019-03-20"
+}
