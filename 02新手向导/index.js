@@ -1,35 +1,84 @@
 var config = [{
-        "step": "1",
-        "elementId": "id01",
-        "top": "100px"
+        id: 'first-step',
+        desc: '我是第一步的说明xxx'
     },
     {
-        "step": "2",
-        "elementId": "id02"
+        id: 'second-step',
+        desc: '我是第二步的说明yyy'
     },
     {
-        "step": "3",
-        "elementId": "id03"
+        id: 'third-step',
+        desc: '我是第三步的说明zzz'
     }
 ];
 
 
-(function () {
+function getElementById(id) {
+    return document.getElementById(id);
+};
 
-    var ele_body = document.body;
+function mask(params) {
+    var mask = getElementById('mask');
 
-    //添加mask掩膜
-    var ele_mask = document.createElement("div");
-    ele_mask.id = 'mask';
-    ele_body.appendChild(ele_mask);
+    if (params.length === 0) {
+        mask.style.display = 'none';
+        return;
+    }
 
-    config.forEach(item => {
-        ele = document.createElement("div");
-        ele.id = item.step;
-        ele.class = "step_style1";
-        ele.style.top = "100px";
-        ele.style.left = "100px";
+    var {
+        id,
+        desc
+    } = params[0];
 
-        ele_mask.appendChild(ele);
-    });
-})()
+    /****************   获取要cover的元素基本信息   ****************/
+    var ele = getElementById(id);
+    var offsetWidth = ele.offsetWidth;
+    var offsetHeight = ele.offsetHeight;
+    var offsetLeft = ele.offsetLeft;
+    var offsetTop = ele.offsetTop;
+
+    var clientHeight = ele.clientHeight;
+
+    console.log(offsetWidth, offsetHeight, offsetLeft, offsetTop, clientHeight);
+
+    /****************   获取屏幕大小，包含滚动区域   ****************/
+    var scrollWidth = document.body.scrollWidth;
+    var scrollHeight = document.body.scrollHeight;
+
+    console.log(scrollWidth, scrollHeight);
+
+    /****************   为Mask设置css   ****************/
+    mask.style.width = offsetWidth + 'px';
+    mask.style.height = offsetHeight + 'px';
+    mask.style.borderColor = "rgba(0, 0, 0, 0.6)";
+    mask.style.borderStyle = 'solid';
+    mask.style.borderLeftWidth = offsetLeft - 7 + 'px';
+    mask.style.borderRightWidth = (scrollWidth - offsetWidth - offsetLeft) + 'px';
+    mask.style.borderTopWidth = offsetTop + 'px';
+    mask.style.borderBottomWidth = (scrollHeight + offsetHeight) + 'px';
+    mask.style.position = 'absolute';
+    mask.style.left = 0;
+    mask.style.top = 0;
+
+    /****************   为Mask-tip设置定位   ****************/
+    var maskTip = getElementById('mask-tip');
+    var tipWidth = maskTip.offsetWidth;
+    maskTip.style.top = offsetHeight + 10 + 'px';
+    maskTip.style.left = offsetWidth / 2 - tipWidth / 2 + 'px';
+
+
+    /****************   为Mask设置desc   ****************/
+    var maskDesc = getElementById('mask-desc');
+    maskDesc.innerHTML = desc;
+
+    /****************   绑定next事件   ****************/
+    var nextBtn = getElementById('mask-next');
+    (function (mask) {
+        nextBtn.onclick = function () {
+            params.shift();
+            mask(params);
+        };
+    })(arguments.callee);
+};
+
+mask(config);
