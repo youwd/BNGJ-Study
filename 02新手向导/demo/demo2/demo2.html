@@ -1,0 +1,309 @@
+<html>
+
+<head>
+    <title>Hello, World! example for mxGraph</title>
+    <link rel="stylesheet" href="./index.css">
+
+    <!-- Sets the basepath for the library if not in same directory -->
+    <script type="text/javascript">
+        mxBasePath = './node_modules/mxgraph/javascript/src';
+    </script>
+
+    <!-- Loads and initializes the library -->
+    <script type="text/javascript" src="./node_modules/mxgraph/javascript/mxClient.js"></script>
+
+    <!-- Example code -->
+    <script type="text/javascript">
+        // Program starts here. Creates a sample graph in the
+        // DOM node with the specified ID. This function is invoked
+        // from the onLoad event handler of the document (see below).
+
+        // Defines a new class for all icons
+        function mxIconSet(state) {
+            this.images = [];
+            var graph = state.view.graph;
+
+            mxVertexHandler.prototype.rotationEnabled = true;
+
+            // // Icon1
+            // var img = mxUtils.createImage(
+            //     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAVCAYAAACkCdXRAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAAA6ZJREFUeNqM001IY1cUB/D/fYmm2sbR2lC1zYlgoRG6MpEyBlpxM9iFIGKFIm3s0lCKjOByhCLZCFqLBF1YFVJdSRbdFHRhBbULtRuFVBTzYRpJgo2mY5OX5N9Fo2TG+eiFA/dd3vvd8+65ByTxshARTdf1JySp6/oTEdFe9T5eg5lIcnBwkCSZyWS+exX40oyur68/KxaLf5Okw+H4X+A9JBaLfUySZ2dnnJqaosPhIAACeC34DJRKpb7IZrMcHx+nwWCgUopGo/EOKwf9fn/1CzERUevr6+9ls1mOjIwQAH0+H4PBIKPR6D2ofAQCgToRUeVYJUkuLy8TANfW1kiS8/PzCy84Mw4MDBAAZ2dnmc/nub+/X0MSEBF1cHDwMJVKsaGhgV6vl+l0mqOjo1+KyKfl1dze3l4NBoM/PZ+diFSLiIKIGBOJxA9bW1sEwNXVVSaTyQMRaRaRxrOzs+9J8ujoaE5EPhQRq67rcZ/PRwD0+/3Udf03EdEgIqZisZibnJykwWDg4eEhd3Z2xkXELCJvPpdBrYjUiEhL+Xo4HH4sIhUaAKNSqiIcDsNkMqG+vh6RSOQQQM7tdhsAQCkFAHC73UUATxcWFqypVApmsxnDw8OwWq2TADQNgAYAFosF+XweyWQSdru9BUBxcXFRB/4rEgDcPouIIx6P4+bmBi0tLSCpAzBqAIqnp6c/dnZ2IpfLYXNzE62traMADACKNputpr+/v8lms9UAKAAwiMjXe3t7KBQKqKurQy6Xi6K0i2l6evpROp1mbW0t29vbGY/Hb8/IVIqq2zlJXl1dsaOjg2azmefn5wwEAl+JSBVExCgi75PkzMwMlVJsbGxkIpFgPp8PX15ePopEIs3JZPITXdf/iEajbGpqolKKExMT1HWdHo/nIxGpgIgoEXnQ3d39kCTHxsYIgC6Xi3NzcwyHw8xkMozFYlxaWmJbWxuVUuzt7WUul6PX6/1cRN4WEe2uA0SkaWVl5XGpRVhdXU0A1DSNlZWVdz3qdDrZ09PDWCzG4+Pjn0XEWvp9KJKw2WwKwBsA3gHQHAqFfr24uMDGxgZ2d3cRiUQAAHa7HU6nE319fTg5Ofmlq6vrGwB/AngaCoWK6rbsNptNA1AJoA7Aux6Pp3NoaMhjsVg+QNmIRqO/u1yubwFEASRKUAEA7rASqABUAKgC8KAUb5XWCOAfAFcA/gJwDSB7C93DylCtdM8qABhLc5TumV6KQigUeubjfwcAHkQJ94ndWeYAAAAASUVORK5CYII='
+            //     );
+            // img.setAttribute('title', 'rotate');
+            // img.style.position = 'absolute';
+            // img.style.cursor = 'pointer';
+            // img.style.width = '16px';
+            // img.style.height = '16px';
+            // img.style.left = (state.x + state.width / 2) + 'px';
+            // img.style.top = state.y - 15 + 'px';
+
+            // mxEvent.addGestureListeners(img,
+            //     mxUtils.bind(this, function (evt) {
+            //         var s = graph.gridSize;
+            //         graph.setSelectionCells(graph.moveCells([state.cell], s, s, true));
+            //         mxEvent.consume(evt);
+            //         this.destroy();
+            //     })
+            // );
+
+            // state.view.graph.container.appendChild(img);
+            // this.images.push(img);
+
+            // Delete
+            var img = mxUtils.createImage('./node_modules/mxgraph/javascript/src/images/error.gif');
+            img.setAttribute('title', 'Delete');
+            img.style.position = 'absolute';
+            img.style.cursor = 'pointer';
+            img.style.width = '16px';
+            img.style.height = '16px';
+            img.style.left = (state.x + state.width) + 'px';
+            img.style.top = (state.y - 16) + 'px';
+
+            mxEvent.addGestureListeners(img,
+                mxUtils.bind(this, function (evt) {
+                    // Disables dragging the image
+                    mxEvent.consume(evt);
+                })
+            );
+
+            mxEvent.addListener(img, 'click',
+                mxUtils.bind(this, function (evt) {
+                    graph.removeCells([state.cell]);
+                    mxEvent.consume(evt);
+                    this.destroy();
+                })
+            );
+
+            state.view.graph.container.appendChild(img);
+            this.images.push(img);
+        };
+
+        mxIconSet.prototype.destroy = function () {
+            if (this.images != null) {
+                for (var i = 0; i < this.images.length; i++) {
+                    var img = this.images[i];
+                    img.parentNode.removeChild(img);
+                }
+            }
+
+            this.images = null;
+        };
+
+        function main(container) {
+            // Checks if the browser is supported
+            if (!mxClient.isBrowserSupported()) {
+                mxUtils.error('Browser is not supported!', 200, false);
+            } else {
+                // Creates the graph inside the given container
+                var graph = new mxGraph(container);
+
+                // Defines the tolerance before removing the icons
+                var iconTolerance = 20;
+
+                // Shows icons if the mouse is over a cell
+                graph.addMouseListener({
+                    currentState: null,
+                    currentIconSet: null,
+                    mouseDown: function (sender, me) {
+                        // Hides icons on mouse down
+                        if (this.currentState != null) {
+                            this.dragLeave(me.getEvent(), this.currentState);
+                            this.currentState = null;
+                        }
+                    },
+                    mouseMove: function (sender, me) {
+                        if (this.currentState != null && (me.getState() == this.currentState ||
+                                me.getState() == null)) {
+                            var tol = iconTolerance;
+                            var tmp = new mxRectangle(me.getGraphX() - tol,
+                                me.getGraphY() - tol, 2 * tol, 2 * tol);
+
+                            if (mxUtils.intersects(tmp, this.currentState)) {
+                                return;
+                            }
+                        }
+
+                        var tmp = graph.view.getState(me.getCell());
+
+                        // Ignores everything but vertices
+                        if (graph.isMouseDown || (tmp != null && !graph.getModel().isVertex(tmp.cell))) {
+                            tmp = null;
+                        }
+
+                        if (tmp != this.currentState) {
+                            if (this.currentState != null) {
+                                this.dragLeave(me.getEvent(), this.currentState);
+                            }
+
+                            this.currentState = tmp;
+
+                            if (this.currentState != null) {
+                                this.dragEnter(me.getEvent(), this.currentState);
+                            }
+                        }
+                    },
+                    mouseUp: function (sender, me) {},
+                    dragEnter: function (evt, state) {
+                        if (this.currentIconSet == null) {
+                            this.currentIconSet = new mxIconSet(state);
+                        }
+                    },
+                    dragLeave: function (evt, state) {
+                        if (this.currentIconSet != null) {
+                            this.currentIconSet.destroy();
+                            this.currentIconSet = null;
+                        }
+                    }
+                });
+
+
+                // Enables rubberband selection
+                new mxRubberband(graph);
+
+                // Gets the default parent for inserting new cells. This
+                // is normally the first child of the root (ie. layer 0).
+                var parent = graph.getDefaultParent();
+
+                // Adds cells to the model in a single step
+                graph.getModel().beginUpdate();
+                try {
+                    // (parent, id, value, x, y, width, height, style)
+                    var v1 = graph.insertVertex(parent, null,
+                        'Hello,', 20, 50, 200, 80, 'callout');
+                    var v2 = graph.insertVertex(parent, null,
+                        'World!', 200, 150, 80, 30);
+                    // var e1 = graph.insertEdge(parent, null, '', v1, v2);
+
+                    // var style = new Object();
+                    // style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_ELLIPSE;
+                    // graph.getStylesheet().putCellStyle('ROUNDED', style);
+
+
+                    // Callout shape
+                    function CalloutShape() {
+                        mxActor.call(this);
+                    };
+                    mxUtils.extend(CalloutShape, mxHexagon);
+                    CalloutShape.prototype.size = 30;
+                    CalloutShape.prototype.position = 0.5;
+                    CalloutShape.prototype.position2 = 0.5;
+                    CalloutShape.prototype.base = 20;
+                    CalloutShape.prototype.getLabelMargins = function () {
+                        return new mxRectangle(0, 0, 0, parseFloat(mxUtils.getValue(
+                            this.style, 'size', this.size)) * this.scale);
+                    };
+                    CalloutShape.prototype.isRoundable = function () {
+                        return true;
+                    };
+                    CalloutShape.prototype.redrawPath = function (c, x, y, w, h) {
+                        var arcSize = mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants
+                            .LINE_ARCSIZE) / 2;
+                        var s = Math.max(0, Math.min(h, parseFloat(mxUtils.getValue(this.style, 'size', this
+                            .size))));
+                        var dx = w * Math.max(0, Math.min(1, parseFloat(mxUtils.getValue(this.style, 'position',
+                            this.position))));
+                        var dx2 = w * Math.max(0, Math.min(1, parseFloat(mxUtils.getValue(this.style, 'position2',
+                            this.position2))));
+                        var base = Math.max(0, Math.min(w, parseFloat(mxUtils.getValue(this.style, 'base', this
+                            .base))));
+
+                        this.addPoints(c, [new mxPoint(0, h - s - base),
+                                new mxPoint(Math.max(0, dx), h - s - base), new mxPoint(dx2, 0),
+                                new mxPoint(Math.min(w, dx + base), h - s - base), new mxPoint(w, h - s - base),
+                                new mxPoint(w, 2 * h - 2 * s - base), new mxPoint(0, 2 * h - 2 * s - base)
+                            ],
+                            this.isRounded, arcSize, true, [4]);
+                    };
+
+                    mxCellRenderer.registerShape('callout', CalloutShape);
+
+                    var style = new Object();
+                    style[mxConstants.STYLE_SHAPE] = 'callout';
+                    graph.getStylesheet().putCellStyle('callout', style);
+
+                } finally {
+                    // Updates the display
+                    graph.getModel().endUpdate();
+                }
+            }
+        };
+    </script>
+</head>
+
+<!-- Page passes the container for the graph to the program -->
+
+<body onload="main(document.getElementById('graphContainer'))">
+
+    <body onload="main(document.getElementById('graphContainer'))">
+        <div class="container">
+            <nav data-step="1" data-intro="This is the main menu.">
+                <ul>
+                    <li id="first-step">Home</li>
+                    <li>Link 1</li>
+                    <li>Link 2</li>
+                    <li>Link 3</li>
+                    <li id="second-step">Link 4</li>
+                </ul>
+            </nav>
+            <div class="leftside" data-step="2" data-intro="This is the side menu.">
+                <ul>
+                    <li>Side link 1</li>
+                    <li>Side link 2</li>
+                    <li>Side link 3</li>
+                    <li>Side link 4</li>
+                    <li>Side link 5</li>
+                    <li>Side link 6</li>
+                </ul>
+            </div>
+            <div class="content">
+                <p data-step="3" data-intro="This is the first paragraph.">Lorem ipsum dolor sit amet, consectetur
+                    adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                    minim
+                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <p id="third-step" data-step="4" data-intro="This is the second paragraph.">Sed ut perspiciatis unde
+                    omnis
+                    iste natus error
+                    sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                    inventore
+                    veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
+                    voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+                    voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+                    consectetur,
+                    adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+                    quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit
+                    laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in
+                    ea
+                    voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
+                    nulla pariatur?</p>
+                <p data-step="5" data-intro="This is the third paragraph.">At vero eos et accusamus et iusto odio
+                    dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et
+                    quas
+                    molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia
+                    deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et
+                    expedita
+                    distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus
+                    id
+                    quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+                    Temporibus
+                    autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates
+                    repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut
+                    aut
+                    reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+                <a class="btn btn-large btn-success" href="javascript:void(0);"
+                    onclick="javascript:introJs().start();">Click me to see effect!</a>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+
+
+        <!-- Creates a container for the graph with a grid wallpaper -->
+        <div id="graphContainer" style="overflow:hidden;width:100%;height:100%;position: absolute;top: 0;left: 0;">
+
+        </div>
+    </body>
+
+</html>

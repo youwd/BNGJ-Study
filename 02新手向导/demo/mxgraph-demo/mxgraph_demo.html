@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./index.css">
+
+    <!-- Sets the basepath for the library if not in same directory -->
+    <script type="text/javascript">
+        mxBasePath = './src';
+    </script>
+
+    <!-- Loads and initializes the library -->
+    <script type="text/javascript" src="./src/js/mxClient.js"></script>
+
+    <!-- Example code -->
+    <script type="text/javascript">
+        // Program starts here. Creates a sample graph in the
+        // DOM node with the specified ID. This function is invoked
+        // from the onLoad event handler of the document (see below).
+        function main(container) {
+            // Checks if the browser is supported
+            if (!mxClient.isBrowserSupported()) {
+                mxUtils.error('Browser is not supported!', 200, false);
+            } else {
+                // Creates the graph inside the given container
+                var graph = new mxGraph(container);
+
+                var keyHandler = new mxKeyHandler(graph);
+                    keyHandler.bindKey(46, function (evt) {
+                        console.log(111);
+                        if (graph.isEnabled()) {
+                            graph.removeCells();
+                        }
+                    });
+
+                // Enables rubberband selection
+                new mxRubberband(graph);
+
+                // Gets the default parent for inserting new cells. This
+                // is normally the first child of the root (ie. layer 0).
+                var parent = graph.getDefaultParent();
+
+                // Adds cells to the model in a single step
+                graph.getModel().beginUpdate();
+
+                // 要创建上述ROUNDED全局样式，你可以按照这个模板来创建一个样式，并将其注册到mxStyleSheet上：
+                var style = new Object();
+                style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_RECTANGLE;
+                style[mxConstants.STYLE_OPACITY] = 50;
+                style[mxConstants.STYLE_FONTCOLOR] = '#774400';
+                graph.getStylesheet().putCellStyle('ROUNDED', style);
+
+                try {
+                    var v1 = graph.insertVertex(parent, null,
+                        'Hello,', 20, 20, 70, 30);
+                    var v2 = graph.insertVertex(parent, null,
+                        'World!', 200, 150, 80, 30);
+                    // var e1 = graph.insertEdge(parent, null, '', v1, v2);
+                } finally {
+                    // Updates the display
+                    graph.getModel().endUpdate();
+
+                    // 删除所有节点
+                    // graph.removeCells(graph.getChildVertices(graph.getDefaultParent()));
+
+                }
+
+
+            }
+        };
+    </script>
+</head>
+
+<!-- Page passes the container for the graph to the program -->
+
+<body onload="main(document.getElementById('graphContainer'))">
+    <div class="container">
+        <nav data-step="1" data-intro="This is the main menu.">
+            <ul>
+                <li id="first-step">Home</li>
+                <li>Link 1</li>
+                <li>Link 2</li>
+                <li>Link 3</li>
+                <li id="second-step">Link 4</li>
+            </ul>
+        </nav>
+        <div class="leftside" data-step="2" data-intro="This is the side menu.">
+            <ul>
+                <li>Side link 1</li>
+                <li>Side link 2</li>
+                <li>Side link 3</li>
+                <li>Side link 4</li>
+                <li>Side link 5</li>
+                <li>Side link 6</li>
+            </ul>
+        </div>
+        <div class="content">
+            <p data-step="3" data-intro="This is the first paragraph.">Lorem ipsum dolor sit amet, consectetur
+                adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p id="third-step" data-step="4" data-intro="This is the second paragraph.">Sed ut perspiciatis unde omnis
+                iste natus error
+                sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
+                voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+                voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+                quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit
+                laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea
+                voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
+                nulla pariatur?</p>
+            <p data-step="5" data-intro="This is the third paragraph.">At vero eos et accusamus et iusto odio
+                dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas
+                molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia
+                deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita
+                distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id
+                quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus
+                autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates
+                repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut
+                reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+            <a class="btn btn-large btn-success" href="javascript:void(0);"
+                onclick="javascript:introJs().start();">Click me to see effect!</a>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+    <!-- Creates a container for the graph with a grid wallpaper -->
+    <div id="graphContainer" style="overflow:hidden;width:100%;height:100%;position: absolute;top: 0;left: 0;">
+
+    </div>
+</body>
+
+</html>
