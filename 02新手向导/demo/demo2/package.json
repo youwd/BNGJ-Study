@@ -25,6 +25,7 @@
 		"start": "node index.js"
 	},
 	"dependencies": {
+		"file-saver": "^2.0.1",
 		"mxgraph": "^3.9.12"
 	},
 	"devDependencies": {}
