@@ -1,0 +1,313 @@
+<html>
+
+<head>
+    <title>Hello, World! example for mxGraph</title>
+    <link rel="stylesheet" href="./index.css">
+
+    <!-- Sets the basepath for the library if not in same directory -->
+    <script type="text/javascript">
+        mxBasePath = './node_modules/mxgraph/javascript/src';
+    </script>
+
+    <!-- Loads and initializes the library -->
+    <script type="text/javascript" src="./node_modules/mxgraph/javascript/mxClient.js"></script>
+    <script type="text/javascript" src="./node_modules/file-saver/dist/FileSaver.js"></script>
+
+    <!-- Example code -->
+    <script type="text/javascript">
+        // Program starts here. Creates a sample graph in the
+        // DOM node with the specified ID. This function is invoked
+        // from the onLoad event handler of the document (see below).
+
+        var graph;
+
+        function main(container) {
+            // Checks if the browser is supported
+            if (!mxClient.isBrowserSupported()) {
+                mxUtils.error('Browser is not supported!', 200, false);
+            } else {
+                // Creates the graph inside the given container
+                graph = new mxGraph(container);
+                mxVertexHandler.prototype.rotationEnabled = true;
+                // Enables rubberband selection
+                new mxRubberband(graph);
+
+                // Gets the default parent for inserting new cells. This
+                // is normally the first child of the root (ie. layer 0).
+                var parent = graph.getDefaultParent();
+
+                // Adds cells to the model in a single step
+                graph.getModel().beginUpdate();
+                try {
+
+                    var v2 = graph.insertVertex(parent, null,
+                        'World!', 200, 150, 80, 30);
+
+                    // var e1 = graph.insertEdge(parent, null, '', v1, v2);
+
+                    // 改变样式，为椭圆形
+                    // var style = new Object();
+                    // style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_ELLIPSE;
+                    // graph.getStylesheet().putCellStyle('ROUNDED', style);
+
+                    // Callout 形状
+                    function CalloutShape() {
+                        mxActor.call(this);
+                    };
+                    mxUtils.extend(CalloutShape, mxHexagon);
+                    CalloutShape.prototype.size = 30;
+                    CalloutShape.prototype.position = 0.5;
+                    CalloutShape.prototype.position2 = 0.5;
+                    CalloutShape.prototype.base = 20;
+                    CalloutShape.prototype.getLabelMargins = function () {
+                        return new mxRectangle(0, 0, 0, parseFloat(mxUtils.getValue(
+                            this.style, 'size', this.size)) * this.scale);
+                    };
+                    CalloutShape.prototype.isRoundable = function () {
+                        return true;
+                    };
+                    CalloutShape.prototype.redrawPath = function (c, x, y, w, h) {
+                        var arcSize = mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants
+                            .LINE_ARCSIZE) / 2;
+                        var s = Math.max(0, Math.min(h, parseFloat(mxUtils.getValue(this.style, 'size', this
+                            .size))));
+                        var dx = w * Math.max(0, Math.min(1, parseFloat(mxUtils.getValue(this.style, 'position',
+                            this.position))));
+                        var dx2 = w * Math.max(0, Math.min(1, parseFloat(mxUtils.getValue(this.style, 'position2',
+                            this.position2))));
+                        var base = Math.max(0, Math.min(w, parseFloat(mxUtils.getValue(this.style, 'base', this
+                            .base))));
+
+                        this.addPoints(c, [new mxPoint(0, h - s - base),
+                                new mxPoint(Math.max(0, dx), h - s - base), new mxPoint(dx2, 0),
+                                new mxPoint(Math.min(w, dx + base), h - s - base), new mxPoint(w, h - s - base),
+                                new mxPoint(w, 2 * h - 2 * s - base), new mxPoint(0, 2 * h - 2 * s - base)
+                            ],
+                            this.isRounded, arcSize, true, [4]);
+                    };
+
+                    mxCellRenderer.registerShape('callout', CalloutShape);
+
+                    function createHandle(state, keys, getPositionFn, setPositionFn, ignoreGrid, redrawEdges) {
+                        var handle = new mxHandle(state, null, mxVertexHandler.prototype.secondaryHandleImage);
+
+                        handle.execute = function () {
+                            for (var i = 0; i < keys.length; i++) {
+                                this.copyStyle(keys[i]);
+                            }
+                        };
+
+                        handle.getPosition = getPositionFn;
+                        handle.setPosition = setPositionFn;
+                        handle.ignoreGrid = (ignoreGrid != null) ? ignoreGrid : true;
+
+                        // Overridden to update connected edges
+                        if (redrawEdges) {
+                            var positionChanged = handle.positionChanged;
+
+                            handle.positionChanged = function () {
+                                positionChanged.apply(this, arguments);
+
+                                // Redraws connected edges TODO: Include child edges
+                                state.view.invalidate(this.state.cell);
+                                state.view.validate();
+                            };
+                        }
+
+                        return handle;
+                    };
+
+                    function callout(state) {
+                        var handles = [createHandle(state, ['size', 'position'], function (bounds) {
+                            var size = Math.max(0, Math.min(bounds.height, mxUtils.getValue(this.state
+                                .style, 'size', CalloutShape.prototype.size)));
+                            var position = Math.max(0, Math.min(1, mxUtils.getValue(this.state.style,
+                                'position', CalloutShape.prototype.position)));
+                            var base = Math.max(0, Math.min(bounds.width, mxUtils.getValue(this.state.style,
+                                'base', CalloutShape.prototype.base)));
+
+                            return new mxPoint(bounds.x + position * bounds.width, bounds.y + bounds
+                                .height - size);
+                        }, function (bounds, pt) {
+                            var base = Math.max(0, Math.min(bounds.width, mxUtils.getValue(this.state.style,
+                                'base', CalloutShape.prototype.base)));
+                            this.state.style['size'] = Math.round(Math.max(0, Math.min(bounds.height, bounds
+                                .y + bounds.height - pt.y)));
+                            this.state.style['position'] = Math.round(Math.max(0, Math.min(1, (pt.x - bounds
+                                .x) / bounds.width)) * 100) / 100;
+                        }), createHandle(state, ['position2'], function (bounds) {
+                            var position2 = Math.max(0, Math.min(1, mxUtils.getValue(this.state.style,
+                                'position2', CalloutShape.prototype.position2)));
+
+                            return new mxPoint(bounds.x + position2 * bounds.width, bounds.y + bounds
+                                .height);
+                        }, function (bounds, pt) {
+                            this.state.style['position2'] = Math.round(Math.max(0, Math.min(1, (pt.x -
+                                bounds.x) / bounds.width)) * 100) / 100;
+                        }), createHandle(state, ['base'], function (bounds) {
+                            var size = Math.max(0, Math.min(bounds.height, mxUtils.getValue(this.state
+                                .style, 'size', CalloutShape.prototype.size)));
+                            var position = Math.max(0, Math.min(1, mxUtils.getValue(this.state.style,
+                                'position', CalloutShape.prototype.position)));
+                            var base = Math.max(0, Math.min(bounds.width, mxUtils.getValue(this.state.style,
+                                'base', CalloutShape.prototype.base)));
+
+                            return new mxPoint(bounds.x + Math.min(bounds.width, position * bounds.width +
+                                base), bounds.y + bounds.height - size);
+                        }, function (bounds, pt) {
+                            var position = Math.max(0, Math.min(1, mxUtils.getValue(this.state.style,
+                                'position', CalloutShape.prototype.position)));
+
+                            this.state.style['base'] = Math.round(Math.max(0, Math.min(bounds.width, pt.x -
+                                bounds.x - position * bounds.width)));
+                        })];
+
+                        if (mxUtils.getValue(state.style, mxConstants.STYLE_ROUNDED, false)) {
+                            handles.push(createArcHandle(state));
+                        }
+
+                        return handles;
+                    }
+
+                    // mxCellRenderer.prototype.defaultShapes['box'] = CalloutShape;
+
+                    // 改变基本样式  
+                    var style = {};
+                    style[mxConstants.STYLE_SHAPE] = 'callout';
+                    graph.getStylesheet().putCellStyle('callout', style);
+
+
+                    var v1 = graph.insertVertex(parent, null,
+                        'hello', 20, 50, 200, 80, 'callout');
+
+                    
+                    // var state = graph.view.getState(v1);
+                    // callout(state);
+                } finally {
+                    // Updates the display
+                    graph.getModel().endUpdate();
+
+                }
+
+                var keyHandler = new mxKeyHandler(graph);
+                keyHandler.bindKey(8, function (evt) {
+                    if (graph.isEnabled()) {
+                        graph.removeCells();
+                    }
+                });
+            }
+        };
+
+        /*
+         * 导出XML 
+         */
+        function exportXML() {
+
+            var encoder = new mxCodec();
+            var result = encoder.encode(graph.getModel());
+            var xml = mxUtils.getXml(result);
+
+            var blob = new Blob([xml], {
+                type: "text/plain;charset=utf-8"
+            });
+            saveAs(blob, "config.xml");
+        }
+
+        function importXML() {
+            var req = mxUtils.load('./config/config.xml');
+            var root = req.getDocumentElement();
+            var dec = new mxCodec(root.ownerDocument);
+
+            dec.decode(root, graph.getModel());
+
+            graph.setEnabled(false);
+            graph.setPanning(true);
+            graph.setTooltips(true);
+        }
+    </script>
+</head>
+
+<!-- Page passes the container for the graph to the program -->
+
+
+
+<body onload="main(document.getElementById('graphContainer'))">
+    <div class="container">
+        <nav data-step="1" data-intro="This is the main menu.">
+            <ul>
+                <li id="first-step" onclick="container()">Home</li>
+                <li>Link 1</li>
+                <li>Link 2</li>
+                <li>Link 3</li>
+                <li id="second-step">Link 4</li>
+            </ul>
+        </nav>
+        <div class="leftside" data-step="2" data-intro="This is the side menu.">
+            <ul>
+                <li>Side link 1</li>
+                <li>Side link 2</li>
+                <li>Side link 3</li>
+                <li>Side link 4</li>
+                <li>Side link 5</li>
+                <li>Side link 6</li>
+            </ul>
+        </div>
+        <div class="content">
+            <p data-step="3" data-intro="This is the first paragraph.">Lorem ipsum dolor sit amet, consectetur
+                adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                minim
+                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur
+                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <p id="third-step" data-step="4" data-intro="This is the second paragraph.">Sed ut perspiciatis unde
+                omnis
+                iste natus error
+                sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                inventore
+                veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
+                voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+                voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+                consectetur,
+                adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam
+                quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit
+                laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in
+                ea
+                voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
+                nulla pariatur?</p>
+            <p data-step="5" data-intro="This is the third paragraph.">At vero eos et accusamus et iusto odio
+                dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et
+                quas
+                molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia
+                deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et
+                expedita
+                distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus
+                id
+                quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
+                Temporibus
+                autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates
+                repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut
+                aut
+                reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
+            <a class="btn btn-large btn-success" href="javascript:void(0);"
+                onclick="javascript:introJs().start();">Click me to see effect!</a>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+    <button onclick="exportXML()" style="width:100px;height:100px;">导出</button>
+    <button onclick="importXML()" style="width:100px;height:100px;">导入</button>
+    <!-- Creates a container for the graph with a grid wallpaper -->
+    <div id="graphContainer"
+        style="overflow:hidden;width:100%;height:100%;position: absolute;top: 0;left: 0;">  <!-- pointer-events: none -->
+
+    </div>
+    <script>
+        function container() {
+            console.log('container');
+        }
+    </script>
+</body>
+
+</html>
