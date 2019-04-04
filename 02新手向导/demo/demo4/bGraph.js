@@ -83,11 +83,14 @@
              graph.getStylesheet().putCellStyle('callout', style);
 
 
-             // 改变样式，为椭圆形
-             // var style = new Object();
-             // style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_ELLIPSE;
-             // graph.getStylesheet().putCellStyle('ROUNDED', style);
-
+             // 要创建上述ROUNDED全局样式，你可以按照这个模板来创建一个样式，并将其注册到mxStyleSheet上：
+             var style = new Object();
+             style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_CLOUD;
+            //  style[mxConstants.STYLE_OPACITY] = 50;
+             style[mxConstants.STYLE_FONTCOLOR] = '#774400';
+             graph.getStylesheet().putCellStyle('ROUNDED', style);
+             var v3 = graph.insertVertex(parent, null,
+                 'World!', 200, 350, 80, 30, 'ROUNDED');
          } finally {
              // Updates the display
              graph.getModel().endUpdate();

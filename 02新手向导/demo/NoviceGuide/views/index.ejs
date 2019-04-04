@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/index.css" />
+    <!-- <link href="https://cdn.bootcss.com/twitter-bootstrap/3.0.1/css/bootstrap.css" rel="stylesheet"> -->
+  </head>
+  <body>
+    <div class="container" id="container">
+      <nav data-step="1" data-intro="This is the main menu.">
+        <ul>
+          <li>
+            <button
+              type="button"
+              class="btn btn-default btn-primary"
+              onclick="clickSelect()"
+            >
+              单击选中
+            </button>
+          </li>
+          <li>上一页</li>
+          <li>下一页</li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-default btn-primary"
+              onclick="edit(this)"
+            >
+              保存
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-default btn-primary"
+              onclick="cancle(this)"
+            >
+              取消
+            </button>
+          </li>
+        </ul>
+      </nav>
+      <div class="leftside" data-step="2" data-intro="This is the side menu.">
+        <ul>
+          <li>
+            <button
+              type="button"
+              class="btn btn-default btn-primary"
+              onclick="show(this)"
+            >
+              样式1
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-default btn-primary"
+              onclick="show1(this)"
+            >
+              样式2
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-default btn-primary"
+              onclick="show2(this)"
+            >
+              样式3
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div id="content" style="position:relative">
+        <div class="content">
+          <p data-step="3" data-intro="This is the first paragraph."></p>
+          <p
+            id="third-step"
+            data-step="4"
+            data-intro="This is the second paragraph."
+          >
+            <a id="a-next" href="http://www.baidu.com"
+              >选中了! <br />选我! <br />选!
+            </a>
+          </p>
+          <p data-step="5" data-intro="This is the third paragraph."></p>
+        </div>
+        <div id="mask">
+
+          <div id="mask-tip" class="mask-tip tip-start" style="display:none">
+            <div class="tip-start-task">
+              <span>任务</span>
+              <span style="font-size: 30px;">01</span>
+            </div>
+            <div class="tip-start-content">
+              <span class="tip-start-content-txt">完成自动挖矿任务</span
+              ><button class="tip-start-content-botton">
+                开始
+              </button>
+            </div>
+          </div>
+
+
+          <div id="mask-tip1" class="mask-tip tip-out" style="display:none">
+            <span id="mask-desc1" class="mask-tip-desc tip-out-text">01</span>
+            <button id="mask-next1" class="tip-out-button">
+              退出新手引导
+            </button>
+          </div>
+
+
+          <div id="mask-tip2" class="mask-tip tip-sign" style="display:none">
+            <img class="tip-sign-img" src="/images/BFTlogo.png" />
+            <div class="tip-sign-text">欢迎来到BFT,请先完成新手任务哦</div>
+          </div>
+          <div class="mask-tip tip-arrow" style="display: none">
+            <span>
+              点击转动，试试自动挖矿
+            </span>
+          </div>
+
+          
+          <div class="mask-tip tip-jump" style="display: none">
+            <span class="tip-jump-text">跳过</span>
+          </div>
+          <div class="mask-tip tip-hand-right" style="display: none">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+           <img src="/images/HAND.png">
+          </div>
+
+
+          <div class="mask-tip tip-hand-left" style="display: none">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <img src="/images/HANDLEFT.png">
+           </div>
+
+
+           <div class="mask-tip tip-pop" style="">
+             <div class="tip-pop-title">
+              <span class="tip-pop-title-txt">第一关</span>
+             </div>
+             <div style="height:48px"></div>
+             <img  class="tip-pop-content-img" src="/images/挖矿徽章.png">
+             <div class="tip-pop-content-txt"><span>您已经学会如何挖矿啦，快挑战下一关吧！</span></div>
+             <div class="tip-pop-content-next"><span>下一关</span></div>
+           </div>
+
+           
+        </div>
+      </div>
+      <div style="clear:both;"></div>
+    </div>
+    <script type="text/javascript" src="/javascripts/jquery1.7.2.js"></script>
+    <script type="text/javascript" src="/javascripts/Tdrag.js"></script>
+    <script src="/javascripts/index.js"></script>
+  </body>
+</html>

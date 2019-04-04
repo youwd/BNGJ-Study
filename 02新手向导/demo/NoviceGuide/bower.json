@@ -1,0 +1,20 @@
+{
+  "name": "noviceguide",
+  "description": "",
+  "main": "",
+  "authors": [
+    "LouiJohn <632841087@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
