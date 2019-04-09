@@ -21,76 +21,91 @@
          // 获取父节点，Root
          var parent = graph.getDefaultParent();
 
+         graph.constrainChildren = false;
+         graph.extendParents = true;
+         graph.extendParentsOnAdd = true;
+
+         // Uncomment the following if you want the container
+         // to fit the size of the graph
+         //  graph.setResizeContainer(true);
+
          // 要添加元素时调用，启动一个事务或子事务处理
          graph.getModel().beginUpdate();
          try {
 
-             var v1 = graph.insertVertex(parent, null,
-                 'hello', 20, 50, 200, 80, 'callout');
-
-             var v2 = graph.insertVertex(parent, null,
-                 'World!', 200, 150, 80, 30);
+             //  var v1 = graph.insertVertex(parent, null,
+             //      'hello', 20, 50, 200, 80, 'callout');
 
              // 设置两个元素的连接线
              // var e1 = graph.insertEdge(parent, null, '', v1, v2);
 
-             // 改变样式，为椭圆形
-             // var style = new Object();
-             // style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_ELLIPSE;
-             // graph.getStylesheet().putCellStyle('ROUNDED', style);
+             // 初始化BFT样式：
+             bStyle(graph);
 
-             // Callout 形状
-             function CalloutShape() {
-                 mxActor.call(this);
-             };
-             mxUtils.extend(CalloutShape, mxHexagon);
-             CalloutShape.prototype.size = 30;
-             CalloutShape.prototype.position = 0.5;
-             CalloutShape.prototype.position2 = 0.5;
-             CalloutShape.prototype.base = 20;
-             CalloutShape.prototype.getLabelMargins = function () {
-                 return new mxRectangle(0, 0, 0, parseFloat(mxUtils.getValue(
-                     this.style, 'size', this.size)) * this.scale);
-             };
-             CalloutShape.prototype.isRoundable = function () {
-                 return true;
-             };
-             CalloutShape.prototype.redrawPath = function (c, x, y, w, h) {
-                 var arcSize = mxUtils.getValue(this.style, mxConstants.STYLE_ARCSIZE, mxConstants
-                     .LINE_ARCSIZE) / 2;
-                 var s = Math.max(0, Math.min(h, parseFloat(mxUtils.getValue(this.style, 'size', this
-                     .size))));
-                 var dx = w * Math.max(0, Math.min(1, parseFloat(mxUtils.getValue(this.style, 'position',
-                     this.position))));
-                 var dx2 = w * Math.max(0, Math.min(1, parseFloat(mxUtils.getValue(this.style, 'position2',
-                     this.position2))));
-                 var base = Math.max(0, Math.min(w, parseFloat(mxUtils.getValue(this.style, 'base', this
-                     .base))));
+             // 圆角：一般说明
+             var v3 = graph.insertVertex(parent, null, '请填写引导说明～', 200, 350, 290, 60, 'ROUNDED');
 
-                 this.addPoints(c, [new mxPoint(0, h - s - base),
-                         new mxPoint(Math.max(0, dx), h - s - base), new mxPoint(dx2, 0),
-                         new mxPoint(Math.min(w, dx + base), h - s - base), new mxPoint(w, h - s - base),
-                         new mxPoint(w, 2 * h - 2 * s - base), new mxPoint(0, 2 * h - 2 * s - base)
-                     ],
-                     this.isRounded, arcSize, true, [4]);
-             };
+             // 退出新手引导
+             var v4 = graph.insertVertex(parent, null, '请填写引导说明～', 200, 150, 180, 80, 'LAYOUT');
+             var v4_1 = graph.insertVertex(v4, null, '01', 25, 25, 25, 25, 'LABEL_BLOD');
 
-             mxCellRenderer.registerShape('callout', CalloutShape);
+             // 手势
+             var v6 = graph.insertVertex(parent, null, null, 130, 150, 80, 80, 'HAND');
+             var v5 = graph.insertVertex(parent, null, null, 130, 200, 80, 80, 'HANDLEFT');
 
-             // 改变基本样式  
-             var style = {};
-             style[mxConstants.STYLE_SHAPE] = 'callout';
-             graph.getStylesheet().putCellStyle('callout', style);
+             // Label
+             var v7 = graph.insertVertex(parent, null, 'TEXT', 130, 350, 40, 40, 'LABEL');
+
+             // 圆角：跳过
+             var v14 = graph.insertVertex(parent, null, '跳过', 200, 450, 290, 60, 'ROUNDED_SKIP');
 
 
-             // 要创建上述ROUNDED全局样式，你可以按照这个模板来创建一个样式，并将其注册到mxStyleSheet上：
-             var style = new Object();
-             style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_CLOUD;
-            //  style[mxConstants.STYLE_OPACITY] = 50;
-             style[mxConstants.STYLE_FONTCOLOR] = '#774400';
-             graph.getStylesheet().putCellStyle('ROUNDED', style);
-             var v3 = graph.insertVertex(parent, null,
-                 'World!', 200, 350, 80, 30, 'ROUNDED');
+
+             // FIRSTPAGE_BACKGROUND
+             var v9 = graph.insertVertex(parent, null, null, 500, 20, 300, 700, 'FIRSTPAGE_BACKGROUND');
+
+             // FIRSTPAGE_TITLE
+             var v9_0 = graph.insertVertex(v9, null, '欢迎来到BFT, 请先完成新手任务哦', 25, 120, 250, 50, 'FIRSTPAGE_TITLE');
+             var v9_1 = graph.insertVertex(v9_0, null, null, 105, -30, 40, 40, 'FIRSTPAGE_TITLE_LOGO');
+
+             // FIRSTPAGE_TASKLIST
+             var v8_0 = graph.insertVertex(v9, null, null, 20, 300, 260, 140, 'TASKLIST_BACKGROUND_0');
+             var v8_7 = graph.insertVertex(v8_0, null, null, 40, 60, 180, 80, 'TASKLIST_BACKGROUND_3');
+             var v8_6 = graph.insertVertex(v8_0, null, null, 20, 15, 220, 120, 'TASKLIST_BACKGROUND_2');
+
+             var v8 = graph.insertVertex(v8_0, null, null, 0, 0, 260, 100, 'TASKLIST_BACKGROUND');
+             var v8_1 = graph.insertVertex(v8, null, '完成自动挖矿任务', 88, 35, 130, 28, 'TASKLIST_ROUNDED');
+             var v8_2 = graph.insertVertex(v8, null, null, 200, 25, 50, 50, 'TASKLIST_START');
+             var v8_3 = graph.insertVertex(v8_2, null, '开始', 12, 12, 25, 25, 'LABEL');
+             var v8_4 = graph.insertVertex(v8, null, '任务', 12, 35, 25, 25, 'LABEL');
+             var v8_5 = graph.insertVertex(v8, null, '01', 40, 32, 25, 25, 'LABEL_BLOD');
+
+
+
+             // ACCOMPLISHED_BACKGROUND
+             var v9 = graph.insertVertex(parent, null, null, 840, 20, 300, 700, 'ACCOMPLISHED_BACKGROUND');
+
+             // ACCOMPLISHED_LAYOUT
+             var v9_1_0 = graph.insertVertex(v9, null, '退出新手引导', 140, 20, 150, 80, 'LAYOUT');
+             var v9_1_1 = graph.insertVertex(v9_1_0, null, '03', 20, 30, 20, 20, 'LABEL_BLOD');
+
+             // ACCOMPLISHED_TITLE
+             var v9_2_0 = graph.insertVertex(v9, null, null, 20, 150, 260, 140, 'ACCOMPLISHED_TITLE');
+             var v9_2_1 = graph.insertVertex(v9_2_0, null, '恭喜您！通关啦！', 0, 10, 260, 30, 'ACCOMPLISHED_TITLE_LABEL');
+
+             // ACCOMPLISHED_TASKLIST
+             var v9_3_0 = graph.insertVertex(v9, null, null, 10, 250, 280, 270, 'TASKLIST_BACKGROUND_0');
+             var v9_3_1 = graph.insertVertex(v9_3_0, null, '新手引导已完成！', 0, 20, 280, 250, 'ACCOMPLISHED_TASKLIST_BACKGROUND');
+             var v9_3_2 = graph.insertVertex(v9_3_0, null, '第 3 关', 85, -20, 110, 80, 'ACCOMPLISHED_TASKLIST_LOGO');
+             var v9_3_01 = graph.insertVertex(v9_3_0, null, null, 10, 70, 80, 100, 'ACCOMPLISHED_TASKLIST_BADGE01');
+             var v9_3_02 = graph.insertVertex(v9_3_0, null, null, 100, 70, 80, 100, 'ACCOMPLISHED_TASKLIST_BADGE02');
+             var v9_3_03 = graph.insertVertex(v9_3_0, null, null, 190, 70, 80, 100, 'ACCOMPLISHED_TASKLIST_BADGE03');
+             var v9_3_3 = graph.insertVertex(v9_3_0, null, '完成', 65, 200, 150, 50, 'ROUNDED_SKIP');
+
+             // GIF
+             var v9_3_0 = graph.insertVertex(v9, null, null, 10, 250, 280, 270, 'TASKLIST_BACKGROUND_0');
+
+
          } finally {
              // Updates the display
              graph.getModel().endUpdate();
@@ -123,7 +138,7 @@
  }
 
  function importXML() {
-     var req = mxUtils.load('./config/config.xml');
+     var req = mxUtils.load('./config/config2.xml');
      var root = req.getDocumentElement();
      var dec = new mxCodec(root.ownerDocument);
 
