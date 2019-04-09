@@ -368,7 +368,7 @@ function bStyle(graph) {
        {
             var style = new Object();
             style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
-            style[mxConstants.STYLE_IMAGE] = 'images/弹窗@3x.png';
+            style[mxConstants.STYLE_IMAGE] = 'images/123.gif';
 
             style[mxConstants.STYLE_FOLDABLE] = 0; // 是否可折叠
             graph.getStylesheet().putCellStyle('GIF', style);

@@ -103,7 +103,7 @@
              var v9_3_3 = graph.insertVertex(v9_3_0, null, '完成', 65, 200, 150, 50, 'ROUNDED_SKIP');
 
              // GIF
-             var v9_3_0 = graph.insertVertex(v9, null, null, 10, 250, 280, 270, 'TASKLIST_BACKGROUND_0');
+            //  var v9_3_0 = graph.insertVertex(v9, null, null, 10, 350, 280, 270, 'GIF');
 
 
          } finally {
