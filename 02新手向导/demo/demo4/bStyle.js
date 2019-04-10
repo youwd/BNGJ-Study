@@ -1,5 +1,11 @@
 function bStyle(graph) {
 
+      // 禁止折叠
+      graph.isCellFoldable = function (cell, collapse) {
+            return false;
+      };
+
+
       // 椭圆
       {
             // 改变样式，为椭圆形
@@ -93,7 +99,7 @@ function bStyle(graph) {
             style[mxConstants.STYLE_ALIGN] = mxConstants.ALIGN_RIGHT; // 字体右对齐
             style[mxConstants.STYLE_SPACING] = '8'; // padding
 
-            style[mxConstants.STYLE_FOLDABLE] = 0;
+            // style[mxConstants.STYLE_FOLDABLE] = 0;
 
             graph.getStylesheet().putCellStyle('LAYOUT', style);
       }
@@ -151,7 +157,7 @@ function bStyle(graph) {
             style[mxConstants.STYLE_STROKECOLOR] = '#ffffff';
             style[mxConstants.STYLE_STROKE_OPACITY] = 0;
 
-            style[mxConstants.STYLE_FOLDABLE] = 0; // 是否可折叠
+            // style[mxConstants.STYLE_FOLDABLE] = 0; // 是否可折叠
             graph.getStylesheet().putCellStyle('FIRSTPAGE_BACKGROUND', style);
 
       }
@@ -185,7 +191,6 @@ function bStyle(graph) {
       {
             var style = new Object();
             style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
-            style[mxConstants.STYLE_FOLDABLE] = 0; // 是否可折叠
             style[mxConstants.STYLE_IMAGE] = 'images/BFTlogo@3x.png';
 
             graph.getStylesheet().putCellStyle('FIRSTPAGE_TITLE_LOGO', style);
@@ -219,7 +224,11 @@ function bStyle(graph) {
             var style = new Object();
             style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
             style[mxConstants.STYLE_IMAGE] = 'images/START@3x.png';
-            style[mxConstants.STYLE_FOLDABLE] = 0;
+
+            style[mxConstants.STYLE_FONTCOLOR] = '#fff';
+            style[mxConstants.STYLE_FONTSIZE] = '12';
+            // style[mxConstants.STYLE_SPACING] = '8'; // padding
+            style[mxConstants.STYLE_FONTSTYLE] = 1; // 字体加粗
 
             graph.getStylesheet().putCellStyle('TASKLIST_START', style);
       }
@@ -248,7 +257,6 @@ function bStyle(graph) {
 
             graph.getStylesheet().putCellStyle('TASKLIST_ROUNDED', style);
       }
-
 
       // ROUNDED_SKIP 跳过
       {
@@ -327,10 +335,11 @@ function bStyle(graph) {
             style[mxConstants.STYLE_FONTSIZE] = '14';
             style[mxConstants.STYLE_SPACING_TOP] = 60;
 
-            
+
             style[mxConstants.STYLE_FOLDABLE] = 0; // 是否可折叠
             graph.getStylesheet().putCellStyle('ACCOMPLISHED_TASKLIST_BACKGROUND', style);
       }
+
       //ACCOMPLISHED_TASKLIST_LOGO
       {
             var style = new Object();
@@ -364,8 +373,8 @@ function bStyle(graph) {
             graph.getStylesheet().putCellStyle('ACCOMPLISHED_TASKLIST_BADGE03', style);
       }
 
-       //GIF
-       {
+      //GIF
+      {
             var style = new Object();
             style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
             style[mxConstants.STYLE_IMAGE] = 'images/123.gif';

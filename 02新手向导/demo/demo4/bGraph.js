@@ -50,7 +50,9 @@
              var v4_1 = graph.insertVertex(v4, null, '01', 25, 25, 25, 25, 'LABEL_BLOD');
 
              // 手势
+
              var v6 = graph.insertVertex(parent, null, null, 130, 150, 80, 80, 'HAND');
+             //  var v6_1 = graph.insertVertex(v6, null, null, 0, 0, 20, 20, "shape=ellipse;perimeter=ellipsePerimeter;");
              var v5 = graph.insertVertex(parent, null, null, 130, 200, 80, 80, 'HANDLEFT');
 
              // Label
@@ -58,7 +60,6 @@
 
              // 圆角：跳过
              var v14 = graph.insertVertex(parent, null, '跳过', 200, 450, 290, 60, 'ROUNDED_SKIP');
-
 
 
              // FIRSTPAGE_BACKGROUND
@@ -75,8 +76,8 @@
 
              var v8 = graph.insertVertex(v8_0, null, null, 0, 0, 260, 100, 'TASKLIST_BACKGROUND');
              var v8_1 = graph.insertVertex(v8, null, '完成自动挖矿任务', 88, 35, 130, 28, 'TASKLIST_ROUNDED');
-             var v8_2 = graph.insertVertex(v8, null, null, 200, 25, 50, 50, 'TASKLIST_START');
-             var v8_3 = graph.insertVertex(v8_2, null, '开始', 12, 12, 25, 25, 'LABEL');
+             var v8_2 = graph.insertVertex(v8, null, '开始', 200, 25, 50, 50, 'TASKLIST_START');
+             v8_2.step = 'step1';
              var v8_4 = graph.insertVertex(v8, null, '任务', 12, 35, 25, 25, 'LABEL');
              var v8_5 = graph.insertVertex(v8, null, '01', 40, 32, 25, 25, 'LABEL_BLOD');
 
@@ -103,7 +104,7 @@
              var v9_3_3 = graph.insertVertex(v9_3_0, null, '完成', 65, 200, 150, 50, 'ROUNDED_SKIP');
 
              // GIF
-            //  var v9_3_0 = graph.insertVertex(v9, null, null, 10, 350, 280, 270, 'GIF');
+             //  var v9_3_0 = graph.insertVertex(v9, null, null, 10, 350, 280, 270, 'GIF');
 
 
          } finally {
@@ -112,11 +113,28 @@
 
          }
 
+
          // 监听键盘事件，8为delete，调用删除元素
          var keyHandler = new mxKeyHandler(graph);
          keyHandler.bindKey(8, function (evt) {
              if (graph.isEnabled()) {
                  graph.removeCells();
+             }
+         });
+
+
+         graph.addMouseListener({
+             mouseDown: function (sender, evt) {
+                //   console.log(evt);
+                 if (evt.sourceState && evt.sourceState.cell.hasOwnProperty('step')) {
+                     console.log(123);
+                 }
+             },
+             mouseMove: function (sender, evt) {
+                 mxLog.debug('mouseMove');
+             },
+             mouseUp: function (sender, evt) {
+                 mxLog.debug('mouseUp');
              }
          });
      }
@@ -138,7 +156,7 @@
  }
 
  function importXML() {
-     var req = mxUtils.load('./config/config2.xml');
+     var req = mxUtils.load('./config/config.xml');
      var root = req.getDocumentElement();
      var dec = new mxCodec(root.ownerDocument);
 

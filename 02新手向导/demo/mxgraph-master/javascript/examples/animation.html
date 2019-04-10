@@ -5,6 +5,7 @@
   SVG animations on edges to visualize the flow in a pipe.
 -->
 <html>
+
 <head>
 	<title>Animation example for mxGraph</title>
 
@@ -18,60 +19,75 @@
 
 	<style type="text/css">
 		.flow {
-		  stroke-dasharray: 8;
-		  animation: dash 0.5s linear;
-		  animation-iteration-count: infinite;
+			stroke-dasharray: 8;
+			animation: dash 0.5s linear;
+			animation-iteration-count: infinite;
 		}
+
 		@keyframes dash {
-		  to {
-		    stroke-dashoffset: -16;
-		  }
+			to {
+				stroke-dashoffset: -16;
+			}
 		}
 	</style>
-	
+
 	<!-- Example code -->
 	<script type="text/javascript">
-		function main(container)
-		{
-			var graph = new mxGraph(container);
-			graph.setEnabled(false);
+		var graph;
+		var e1;
+		var v1;
+
+		function main(container) {
+			graph = new mxGraph(container);
+			// graph.setEnabled(false);
 			var parent = graph.getDefaultParent();
+
+			// Adds animation to edge shape and makes "pipe" visible
+			graph.addListener(mxEvent.CLICK, function (sender, evt) {
+				console.log(123);
+				reflash();
+			}); //双击事件
 
 			var vertexStyle = 'shape=cylinder;strokeWidth=2;fillColor=#ffffff;strokeColor=black;' +
 				'gradientColor=#a0a0a0;fontColor=black;fontStyle=1;spacingTop=14;';
-			
+
 			graph.getModel().beginUpdate();
-			try
-			{
-				var v1 = graph.insertVertex(parent, null, 'Pump', 20, 20, 60, 60,vertexStyle);
-				var v2 = graph.insertVertex(parent, null, 'Tank', 200, 150, 60, 60,vertexStyle);
-				var e1 = graph.insertEdge(parent, null, '', v1, v2,
+			try {
+				v1 = graph.insertVertex(parent, null, 'Pump', 20, 20, 60, 60, vertexStyle);
+				var v2 = graph.insertVertex(parent, null, 'Tank', 200, 150, 60, 60, vertexStyle);
+				e1 = graph.insertEdge(parent, null, '', v1, v2,
 					'strokeWidth=3;endArrow=block;endSize=2;endFill=1;strokeColor=black;rounded=1;');
 				e1.geometry.points = [new mxPoint(230, 50)];
 				graph.orderCells(true, [e1]);
-			}
-			finally
-			{
+			} finally {
 				// Updates the display
 				graph.getModel().endUpdate();
 			}
 
-			// Adds animation to edge shape and makes "pipe" visible
-			var state = graph.view.getState(e1);
-			state.shape.node.getElementsByTagName('path')[0].removeAttribute('visibility');
-			state.shape.node.getElementsByTagName('path')[0].setAttribute('stroke-width', '6');
-			state.shape.node.getElementsByTagName('path')[0].setAttribute('stroke', 'lightGray');
-			state.shape.node.getElementsByTagName('path')[1].setAttribute('class', 'flow');
 		};
+
+		function reflash() {
+			// Adds animation to edge shape and makes "pipe" visible
+			var state = graph.view.getState(v1);
+			// state.shape.node.getElementsByTagName('path')[0].removeAttribute('visibility');
+			// state.shape.node.getElementsByTagName('path')[0].setAttribute('stroke-width', '6');
+			// state.shape.node.getElementsByTagName('path')[0].setAttribute('stroke', 'lightGray');
+			console.log(state.shape.node);
+			state.shape.node.getElementsByTagName('path')[0].setAttribute('class', 'flow');
+		}
 	</script>
 </head>
 
 <!-- Page passes the container for the graph to the program -->
+
 <body onload="main(document.getElementById('graphContainer'))">
 
 	<!-- Creates a container for the graph with a grid wallpaper -->
 	<div id="graphContainer"
 		style="position:relative;overflow:hidden;width:321px;height:241px;background:url('editors/images/grid.gif');cursor:default;">
 	</div>
+
+	<button onclick="reflash()">刷新</button>
 </body>
+
 </html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            background: #333;
+        }
+
+        .tips-click {
+            width: 28px;
+            height: 28px;
+            position: relative;
+            cursor: pointer;
+            margin: 120px auto 0;
+        }
+
+        .tips-click span {
+            color: #e69800;
+            font-weight: bold;
+            font-size: 16px;
+            position: absolute;
+            left: 50%;
+            top: 48%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        .tips-click b {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 50%;
+            display: block;
+            background-color: rgba(255, 255, 255, .6);
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
+        }
+
+        .tips-click b:nth-of-type(1) {
+            -webkit-animation: click1 1s linear infinite;
+            animation: click1 1s linear infinite;
+        }
+
+        .tips-click b:nth-of-type(2) {
+            -webkit-animation: click2 1s linear infinite;
+            animation: click2 1s linear infinite;
+        }
+
+        @-webkit-keyframes click1 {
+            0% {
+                opacity: .8;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: scale(2);
+                transform: scale(2);
+            }
+        }
+
+        @keyframes click1 {
+            0% {
+                opacity: .8;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: scale(2);
+                transform: scale(2);
+            }
+        }
+
+        @-webkit-keyframes click2 {
+            0% {
+                opacity: .8;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: scale(3);
+                transform: scale(3);
+            }
+        }
+
+        @keyframes click2 {
+            0% {
+                opacity: .8;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: scale(3);
+                transform: scale(3);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tips-click">
+        <b></b>
+        <b></b>
+        <b></b>
+    </div>
+</body>
+
+</html>
