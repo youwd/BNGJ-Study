@@ -213,15 +213,16 @@
          // 获取页面元素 转为XML
          var encoder = new mxCodec();
          var result = encoder.encode(graph.getModel());
-         var xml = mxUtils.getXml(result);
-         pages[page_name] = xml;
+        //  var xml = mxUtils.getXml(result);
+         pages[page_name] = result;
 
          // 动态改变下拉框列表
-         eleListChange(pages,'pageList');
-         eleListChange(pages,'eventList');
+         eleListChange(pages, 'pageList');
+         eleListChange(pages, 'eventList');
 
          page_obj.value = null; // 清空输入框中的值
-
+         // 删除页面所有元素
+         graph.removeCells(graph.getChildVertices(graph.getDefaultParent()));
      } else {
          alert('请添加元素后再保存页面！');
      }
@@ -250,13 +251,28 @@
      }
 
      // 如果是事件列表，则最后多加退出事件
-     if(id === 'eventList'){
-        var option = document.createElement("option");
-        option.value = 'layout';
-        option.text = '退出';
-        ele.appendChild(option);
+     if (id === 'eventList') {
+         var option = document.createElement("option");
+         option.value = 'layout';
+         option.text = '退出';
+         ele.appendChild(option);
      }
-    
+
+ }
+
+ /**
+  * 页面加载
+  */
+ function pageLoading() {
+     var ele = document.getElementById('pageList');
+     var index = ele.selectedIndex;
+     if (index) {
+        var root = pages[ele.options[index].text];
+         var dec = new mxCodec(root);
+         dec.decode(root, graph.getModel());
+     } else {
+         alert('请选择一个页面进行加载！');
+     }
  }
 
  /**
