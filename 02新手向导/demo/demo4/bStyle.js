@@ -60,7 +60,7 @@ function bStyle(graph) {
             graph.getStylesheet().putCellStyle('callout', style);
       }
 
-      // ROUNDED
+      // INSTRUCTION
       {
             // 要创建上述ROUNDED全局样式，你可以按照这个模板来创建一个样式，并将其注册到mxStyleSheet上：
             var style = new Object();
@@ -83,12 +83,11 @@ function bStyle(graph) {
             style[mxConstants.STYLE_FONTCOLOR] = '#FFFFFF';
             style[mxConstants.STYLE_FONTSIZE] = '18';
 
-            graph.getStylesheet().putCellStyle('ROUNDED', style);
+            graph.getStylesheet().putCellStyle('INSTRUCTION', style);
       }
 
       // IMAGE_LAYOUT 退出新手引导
       {
-            // 要创建上述ROUNDED全局样式，你可以按照这个模板来创建一个样式，并将其注册到mxStyleSheet上：
             var style = new Object();
             style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
             style[mxConstants.STYLE_PERIMETER] = mxPerimeter.RectanglePerimeter;

@@ -1,86 +1,156 @@
-*{margin:0; padding:0;}
-p{margin-bottom:15px;}
-.container {width:960px; min-height:100%; background:#ccc; box-shadow:0 0 10px #444; margin:30px auto;}
-nav ul {background:#fcc; padding:10px;}
-nav ul li {display:inline-block; border-right:1px solid #ccc; padding:0 54px; font-weight:bold;}
-nav ul li:last-child {border-right:none;}
-.leftside {float:left; width:80px; margin:15px 0; padding:20px; background:#cfc;}
-.leftside ul {list-style:none;}
-.leftside ul li {margin:0 0 15px;}
-.content { float:left; width:780px; margin:15px 0 0 15px; background:#ccf; text-align:justify;}
+* {
+    margin: 0;
+    padding: 0;
+}
 
+body {
+    display: flex;
+}
 
-.step_style1{
-    height: 30px;
-    width: 60px;
-    background: #fff;
+#graphContainer {
+    overflow: hidden;
+    width: calc(100% - 150px);
+    height: 100%;
     position: absolute;
+    top: 0;
+    left: 150px;
 }
 
-#first-step {
-   
+p {
+    margin-bottom: 15px;
 }
 
-#second-step {
-    /* height: 100px;
-    width: 300px;
-    border: 1px solid black;
-    border-radius: 4px;
-    line-height: 100px;
-    text-align: center;
-    position: absolute;
-    top: 50px;
-    left: 800px; */
+.container {
+    position: relative;
+    width: calc(100% - 300px);
+    min-height: 100%;
+    background: #ccc;
+    box-shadow: 0 0 10px #444;
+    margin: 30px auto;
 }
 
-#third-step {
-    /* height: 100px;
-    width: 300px;
-    border: 1px solid black;
-    border-radius: 4px;
-    line-height: 100px;
-    text-align: center;
-    position: absolute;
-    top: 500px;
-    left: 200px; */
+nav ul {
+    background: #fcc;
+    padding: 10px;
 }
 
-.mask-tip {
-    min-width: 175px;
-    text-align: center;
-    border: 1px solid rgb(0, 94, 166);
-    border-radius: 4px;
-    padding: 5px 10px;
-    position: absolute;
-    /* top: 120px;
-    left: 65px; */
-    background: white;
+nav ul li {
+    display: inline-block;
+    border-right: 1px solid #ccc;
+    padding: 0 54px;
+    font-weight: bold;
 }
 
-.mask-tip:before {
-    content: "";
-    width: 10px;
-    height: 10px;
-    border: 1px solid rgb(0, 94, 166);
-    background: white;
-    position: absolute;
-    transform: rotate(45deg);
-    top: -6px;
-    left: 85px;
-    border-right-width: 0;
-    border-bottom-width: 0;
+nav ul li:last-child {
+    border-right: none;
 }
 
-.mask-tip-desc {
-    display: block;
-    margin-bottom: 10px;            
+.leftside {
+    float: left;
+    width: 80px;
+    margin: 15px 0;
+    padding: 20px;
+    background: #cfc;
 }
 
-.mask-tip-btn {
-    border-radius: 4px;
-    padding: 6px;
-    border: none;
-    background-color: rgb(0, 94, 166);
+.leftside ul {
+    list-style: none;
+}
+
+.leftside ul li {
+    margin: 0 0 15px;
+}
+
+.content {
+    float: left;
+    width: calc(100% - 150px);
+    margin: 15px 0 0 15px;
+    background: #ccf;
+    text-align: justify;
+}
+
+/* 样式库 */
+#toolbar {
+    width: 150px;
+    height: 100%;
+    border-right: 1px #333 solid;
+}
+
+#toolbar h4 {
+    margin-top: 20px;
+}
+
+#toolbar ul {
+    margin-left: 30px;
+}
+
+#toolbar li {
     cursor: pointer;
-    color: white;
+}
+
+#toolbar li:hover {
+    color: #0074cf;
+
+}
+
+/* 页面管理 */
+.pageManage {
+    display: flex;
+    justify-content: space-around;
+}
+
+#pageName {
+    width: 80px;
+    height: 20px;
+    margin: auto;
+}
+
+.pageManage button {
+    width: 50px;
+    height: 25px;
+    background: #00ae7c;
+    border-radius: 8px;
+    color: #fff;
+    margin-right: 5px;
+}
+
+/* 页面列表 */
+#pageList{
+    width: 80px;
+    height: 20px;
+    margin: auto;
+}
+
+/* 事件绑定 */
+#eventList {
+    width: 60px;
+    margin: 5px;
+}
+
+select option:first-child {
+    display: none;
+}
+
+
+#eventBind button {
+    width: 32px;
+}
+
+#eventCancel {
+    color: red;
+}
+
+/* 文件操作 */
+#buttonGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#buttonGroup button {
+    width: 50px;
+    height: 25px;
+    background: #0086ff;
+    border-radius: 8px;
+    color: #fff;
 }

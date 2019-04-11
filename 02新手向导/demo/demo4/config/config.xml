@@ -2,10 +2,10 @@
     <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
-        <mxCell id="2" value="请填写引导说明～" style="ROUNDED" vertex="1" parent="1">
+        <mxCell id="2" value="**2**" style="ROUNDED" vertex="1" parent="1">
             <mxGeometry x="380" y="240" width="290" height="60" as="geometry"/>
         </mxCell>
-        <mxCell id="3" value="请填写引导说明～" style="LAYOUT" vertex="1" parent="1">
+        <mxCell id="3" value="{{*id*}}" style="LAYOUT" vertex="1" parent="1">
             <mxGeometry x="200" y="150" width="180" height="80" as="geometry"/>
         </mxCell>
         <mxCell id="4" value="01" style="LABEL_BLOD" vertex="1" parent="3">

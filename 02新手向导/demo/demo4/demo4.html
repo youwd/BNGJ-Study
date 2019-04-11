@@ -1,28 +1,68 @@
 <html>
 
 <head>
-    <title>Hello, World! example for mxGraph</title>
+    <title>新手引导</title>
     <link rel="stylesheet" href="./index.css">
 
-    <!-- Sets the basepath for the library if not in same directory -->
+    <!-- mxGraph basePath -->
     <script type="text/javascript">
         mxBasePath = './node_modules/mxgraph/javascript/src';
     </script>
 
-    <!-- Loads and initializes the library -->
+    <!-- 外部依赖库 -->
     <script type="text/javascript" src="./node_modules/mxgraph/javascript/mxClient.js"></script>
     <script type="text/javascript" src="./node_modules/file-saver/dist/FileSaver.js"></script>
 
-    <!-- Example code -->
+    <!-- 样式库与元素操作库 -->
     <script type="text/javascript" src="bStyle.js"></script>
     <script type="text/javascript" src="bGraph.js"></script>
 </head>
 
-<!-- Page passes the container for the graph to the program -->
-
 
 
 <body onload="main(document.getElementById('graphContainer'))">
+    <div id="toolbar">
+        <h4>样式库：</h4>
+        <ul>
+            <li onclick="addCells('INSTRUCTION')">引导说明</li>
+            <li onclick="addCells('LAYOUT')">退出引导</li>
+            <li onclick="addCells('HANDLEFT')">左手势</li>
+            <li onclick="addCells('HAND')">右手势</li>
+            <li onclick="addCells('LABEL')">文本</li>
+            <li onclick="addCells('SKIP')">跳过</li>
+            <li onclick="addCells('FIRSTPAGE')">首页面</li>
+            <li onclick="addCells('ACCOMPLISHED')">结束页面</li>
+        </ul>
+        <h4>页面保存：</h4>
+        <div class="pageManage">
+            <input type="text" id="pageName" placeholder="输入页面名.."> <button onclick="pageSave()">保存</button>
+        </div>
+
+        <h4>页面列表：</h4>
+        <div class="pageManage">
+            <select id="pageList">
+                <option></option>
+            </select>
+            <button onclick="pageLoading()">加载</button>
+        </div>
+
+        <h4>事件绑定：</h4>
+        <div id="eventBind">
+            <select id="eventList">
+                <option></option>
+                <option value="layout">退出</option>
+            </select>
+            <button id="eventOK" onclick="eventOK()">绑定</button>
+            <button id="eventCancel" onclick="eventCancel()">解绑</button>
+        </div>
+
+        <h4>文件操作：</h4>
+        <div id="buttonGroup">
+            <button onclick="exportXML()">导出</button>
+            <button onclick="importXML()">导入</button>
+        </div>
+
+    </div>
     <div class="container">
         <nav data-step="1" data-intro="This is the main menu.">
             <ul>
@@ -81,19 +121,12 @@
                 repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut
                 aut
                 reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-            <a class="btn btn-large btn-success" href="javascript:void(0);"
-                onclick="javascript:introJs().start();">Click me to see effect!</a>
+            <a class="btn btn-large btn-success" href="javascript:void(0);">Click me to see effect!</a>
         </div>
-        <div style="clear:both;"></div>
     </div>
-
-    <button onclick="exportXML()" style="width:100px;height:100px;">导出</button>
-    <button onclick="importXML()" style="width:100px;height:100px;">导入</button>
     <!-- Creates a container for the graph with a grid wallpaper -->
-    <div id="graphContainer"
-        style="overflow:hidden;width:100%;height:100%;position: absolute;top: 0;left: 0;">  <!-- pointer-events: none -->
+    <div id="graphContainer"></div> <!-- pointer-events: none -->
 
-    </div>
     <script>
         function container() {
             console.log('container');
