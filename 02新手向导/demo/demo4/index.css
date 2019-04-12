@@ -94,6 +94,20 @@ nav ul li:last-child {
 }
 
 /* 页面管理 */
+.button-large {
+   display: flex;
+   justify-content: center;
+}
+
+.button-large button {
+    margin: 5px;
+    width: 140px;
+    height: 25px;
+    background: #0086ff;
+    border-radius: 8px;
+    color: #fff;
+}
+
 .pageManage {
     display: flex;
     justify-content: space-around;
@@ -102,6 +116,7 @@ nav ul li:last-child {
 #pageName {
     width: 80px;
     height: 20px;
+    /* border-radius: 4px; */
     margin: auto;
 }
 
@@ -115,7 +130,7 @@ nav ul li:last-child {
 }
 
 /* 页面列表 */
-#pageList{
+#pageList {
     width: 80px;
     height: 20px;
     margin: auto;

@@ -33,7 +33,11 @@
             <li onclick="addCells('FIRSTPAGE')">首页面</li>
             <li onclick="addCells('ACCOMPLISHED')">结束页面</li>
         </ul>
-        <h4>页面保存：</h4>
+        <h4>新增页面：</h4>
+        <div class="button-large">
+            <button onclick="newPage()">+ 新增页面</button>
+        </div>
+
         <div class="pageManage">
             <input type="text" id="pageName" placeholder="输入页面名.."> <button onclick="pageSave()">保存</button>
         </div>
@@ -45,7 +49,9 @@
             </select>
             <button onclick="pageLoading()">加载</button>
         </div>
-
+        <div class="button-large">
+                <button onclick="editSave()">修改保存</button>
+            </div>
         <h4>事件绑定：</h4>
         <div id="eventBind">
             <select id="eventList">

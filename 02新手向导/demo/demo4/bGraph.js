@@ -9,6 +9,8 @@
  var graphState = 0; //记录是编辑状态还是演示状态,0:编辑状态；1:演示状态
  var pages = new Object(); // 记录保存的设计页面
 
+ var pageView; // 当前加载的页面
+
  function main(container) {
      // Checks if the browser is supported
      if (!mxClient.isBrowserSupported()) {
@@ -50,10 +52,18 @@
              mouseDown: function (sender, evt) {
                  // 事件绑定时，记录点击的cellID
                  evt.sourceState ? cellID = evt.sourceState.cell.id : cellID = null;
-
-                 // 下一步事件
+                 // 下一步事件 graphState && 
                  if (evt.sourceState && evt.sourceState.cell.hasOwnProperty('event')) {
-                     console.log(123);
+                     var event = evt.sourceState.cell.event;
+                     console.log(evt.sourceState.cell);
+                     // 如果是退出事件
+                     if (event === '退出') {
+                        var ele =  document.getElementById('graphContainer');
+                        ele.style.display = 'none';
+                     }
+                     var root = pages[evt.sourceState.cell.event];
+                     var dec = new mxCodec(root);
+                     dec.decode(root, graph.getModel());
                  }
              },
              mouseMove: function (sender, evt) {
@@ -68,7 +78,7 @@
 
  var cells = {
      // 引导说明
-     'INSTRUCTION': function () {
+     'INSTRUCTION': function (parent) {
          // 要添加元素时调用，启动一个事务或子事务处理
          graph.getModel().beginUpdate();
          try {
@@ -79,7 +89,7 @@
          }
      },
      // 退出新手引导
-     'LAYOUT': function () {
+     'LAYOUT': function (parent) {
          graph.getModel().beginUpdate();
          try {
              var p = graph.insertVertex(parent, null, '退出新手引导', 120, 150, 150, 80, 'LAYOUT');
@@ -90,7 +100,7 @@
          }
      },
      // 右手势
-     'HAND': function () {
+     'HAND': function (parent) {
          graph.getModel().beginUpdate();
          try {
              graph.insertVertex(parent, null, null, 0, 150, 80, 80, 'HAND');
@@ -100,7 +110,7 @@
          }
      },
      // 左手势
-     'HANDLEFT': function () {
+     'HANDLEFT': function (parent) {
          graph.getModel().beginUpdate();
          try {
              graph.insertVertex(parent, null, null, 0, 200, 80, 80, 'HANDLEFT');
@@ -110,17 +120,17 @@
          }
      },
      // 文本
-     'LABEL': function () {
+     'LABEL': function (parent) {
          graph.getModel().beginUpdate();
          try {
-             graph.insertVertex(parent, null, 'TEXT', 0, 350, 40, 40, 'LABEL');
+             graph.insertVertex(parent, null, 'TEXT', 100, 450, 40, 40, 'LABEL');
          } finally {
              // 更新画布
              graph.getModel().endUpdate();
          }
      },
      // 跳过
-     'SKIP': function () {
+     'SKIP': function (parent) {
          graph.getModel().beginUpdate();
          try {
              graph.insertVertex(parent, null, '跳过', 20, 450, 290, 60, 'ROUNDED_SKIP');
@@ -130,7 +140,7 @@
          }
      },
      // 首页面
-     'FIRSTPAGE': function () {
+     'FIRSTPAGE': function (parent) {
          graph.getModel().beginUpdate();
          try {
              // FIRSTPAGE_BACKGROUND
@@ -158,7 +168,7 @@
          }
      },
      // 结束页面
-     'ACCOMPLISHED': function () {
+     'ACCOMPLISHED': function (parent) {
          graph.getModel().beginUpdate();
          try {
              // ACCOMPLISHED_BACKGROUND
@@ -193,10 +203,32 @@
   */
  function addCells(type) {
      var type = type.toUpperCase();
+     // 获取父节点，Root
+     parent = graph.getDefaultParent();
      if (cells.hasOwnProperty(type)) {
-         cells[type]();
+         cells[type](parent);
      }
 
+ }
+
+ /**
+  * 新增页面
+  */
+ function newPage() {
+
+     pageView = null; // 当前页面名清空
+
+     var ele =  document.getElementById('graphContainer');
+     ele.style.display = 'block';
+
+     // 删除页面所有元素
+     graph.removeCells(graph.getChildVertices(graph.getDefaultParent()));
+
+     // 页面列表取消选择
+     var sel_obj = document.getElementById("eventList");
+     sel_obj.selectedIndex = 0;
+     sel_obj = document.getElementById("pageList");
+     sel_obj.selectedIndex = 0;
  }
 
  /**
@@ -210,15 +242,29 @@
          var page_obj = document.getElementById("pageName");
          var page_name = page_obj.value;
 
+         if (!page_name.trim()) {
+             alert('页面名不能为空');
+             return;
+         }
+
+         // 判断输入的页面名是否重复
+         for (key in pages) {
+             if (key === page_name) {
+                 alert(`该页面名${page_name}已重复，请重新命名`);
+                 return;
+             }
+         }
+
+         pageView = page_name; // 记录当前页面名
+
          // 获取页面元素 转为XML
          var encoder = new mxCodec();
          var result = encoder.encode(graph.getModel());
-        //  var xml = mxUtils.getXml(result);
          pages[page_name] = result;
 
          // 动态改变下拉框列表
          eleListChange(pages, 'pageList');
-         eleListChange(pages, 'eventList');
+         //  eleListChange(pages, 'eventList');
 
          page_obj.value = null; // 清空输入框中的值
          // 删除页面所有元素
@@ -267,12 +313,37 @@
      var ele = document.getElementById('pageList');
      var index = ele.selectedIndex;
      if (index) {
-        var root = pages[ele.options[index].text];
+         var root = pages[ele.options[index].text];
          var dec = new mxCodec(root);
          dec.decode(root, graph.getModel());
+
+         pageView = ele.options[index].text; // 记录当前页面名
      } else {
          alert('请选择一个页面进行加载！');
      }
+
+     // 事件列表中去除已加载的页面
+     eleListChange(pages, 'eventList');
+     document.getElementById('eventList').remove(index);
+
+ }
+
+ /**
+  * 修改保存
+  */
+ function editSave() {
+     var ele = document.getElementById('pageList');
+     var index = ele.selectedIndex;
+     // 获取页面元素 转为XML
+     var encoder = new mxCodec();
+     var result = encoder.encode(graph.getModel());
+     if (index && result) {
+         pages[pageView] = result;
+         alert('修改保存成功！');
+     } else {
+         alert('修改保存失败，请重新操作！');
+     }
+
  }
 
  /**
@@ -281,11 +352,16 @@
  function eventOK() {
      var sel_obj = document.getElementById("eventList");
      var index = sel_obj.selectedIndex;
-     if (index) {
+     if (index && cellID) {
          var cell = graph.getModel().getCell(cellID);
-         cell.event = `step${{index}}`;
+         cell.event = sel_obj[index].text; // 事件绑定某一页面
+         // 获取页面元素 转为XML
+         var encoder = new mxCodec();
+         var result = encoder.encode(graph.getModel());
+         pages[pageView] = result;
+         alert('事件绑定成功！');
      } else {
-         alert('请选择一个事件进行绑定！');
+         alert('请选择一个元素和事件进行绑定！');
      }
 
  }
@@ -297,10 +373,16 @@
      // 将事件下拉框清空
      var sel_obj = document.getElementById("eventList");
      sel_obj.selectedIndex = 0;
+     if (cellID) {
+         // 获取选中的元素
+         var cell = graph.getModel().getCell(cellID);
 
-     // 获取选中的元素
-     var cell = graph.getModel().getCell(cellID);
-     delete cell[event]; // 删除事件绑定
+         delete cell.event; // 删除事件绑定
+
+         alert('事件解绑成功！');
+     } else {
+         alert('请选择一个元素进行解绑！');
+     }
  }
 
  /**
@@ -325,9 +407,8 @@
      var encoder = new mxCodec();
      var result = encoder.encode(graph.getModel());
      var xml = mxUtils.getXml(result);
-
      var blob = new Blob([xml], {
          type: "text/plain;charset=utf-8"
      });
-     saveAs(blob, "config.xml");
+     //  saveAs(blob, "config.xml");
  }
