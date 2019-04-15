@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var child_process = require('child_process');
+const os = require('os');
 
 var config = new Object(); // 配置文件信息 config.json
 
@@ -13,10 +14,9 @@ function diskDirector(configPath) {
     config = getConfig(configPath);
 
     // 基于linux的返回linux,基于苹果的返回Darwin,基于windows的返回Windows_NT
-    // console.log(os.type());
-
+    var osType = os.type();
     // 获取磁盘大小
-    getDiskUsed().then(function (usedSizeG) {
+    getDiskUsed(osType,config.cleanPath).then(function (usedSizeG) {
 
         maxValueG = unit2G(config.maxValue, config.unit.charAt(0)); // 获取配置文件中设置的最大存储值
 
@@ -24,12 +24,12 @@ function diskDirector(configPath) {
         if (usedSizeG > maxValueG) {
             cleanFile(config.cleanPath, function () {
                 // 清理结束的回调，检测清理后是否还大于设置的值
-                getDiskUsed().then(function (usedSizeG) {
+                getDiskUsed(osType,config.cleanPath).then(function (usedSizeG) {
                     // 如果已用空间超过配置文件设置的值，则执行清理文件操作
                     if (usedSizeG > maxValueG) {
-                        alert('清理后，磁盘已占空间仍然大于设定值！');
+                        console.log('清理后，磁盘已占空间仍然大于设定值！');
                     } else{
-                        alert(`清理文件成功！目前已使用空间：${usedSizeG}G`);
+                        console.log(`清理文件成功！目前已使用空间：${usedSizeG}G`);
                     }
                 });
             });
@@ -39,21 +39,41 @@ function diskDirector(configPath) {
 
 /**
  * 获取磁盘可用空间
+ * @param {*} osType 基于linux的返回linux,基于苹果的返回Darwin,基于windows的返回Windows_NT
+ * @param {*} cleanPath 要清理的路径 
  */
-function getDiskUsed() {
-    return new Promise(function (resolve, reject) {
-        child_process.exec('df -h', function (err, stdout) {
-            var mem = stdout.split(/\n/).slice(1);
-            var temp = mem[0].split(/\s+/);
-            if (temp[0].charAt(0) === '/') {
-                data = temp[3];
-            }
-            usedSize = data.slice(0, -2); // 获取已用空间数值
-            unit = data.slice(data.length - 2, -1); // 获取已用空间单位
-            usedSizeG = unit2G(usedSize, unit); // 调用单位转换方法，统一转换为G
-            resolve(usedSizeG);
+function getDiskUsed(osType, cleanPath) {
+    if(osType==='linux'||osType==='Darwin'){
+        return new Promise(function (resolve, reject) {
+            child_process.exec('df -h', function (err, stdout) {
+                var mem = stdout.split(/\n/).slice(1);
+                var temp = mem[0].split(/\s+/);
+                if (temp[0].charAt(0) === '/') {
+                    data = temp[3];
+                }
+                usedSize = data.slice(0, -2); // 获取已用空间数值
+                unit = data.slice(data.length - 2, -1); // 获取已用空间单位
+                usedSizeG = unit2G(usedSize, unit); // 调用单位转换方法，统一转换为G
+                resolve(usedSizeG);
+            });
         });
-    });
+    } else {
+        new Promise(function (resolve, reject) {
+            child_process.exec(`fsutil volume diskfree ${cleanPath.substr(0,2)}`, function (err, stdout) {
+                var mem = stdout.split(/\n/).slice(1);
+                var temp = mem[0].split(/\s+/);
+                if (temp[0].charAt(0) === '/') {
+                    data = temp[3];
+                }
+                usedSize = data.slice(0, -2); // 获取已用空间数值
+                unit = data.slice(data.length - 2, -1); // 获取已用空间单位
+                usedSizeG = unit2G(usedSize, unit); // 调用单位转换方法，统一转换为G
+                resolve(usedSizeG);
+            });
+        });
+    }
+    
+    
 }
 
 /**

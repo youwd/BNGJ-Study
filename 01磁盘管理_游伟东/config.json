@@ -1,5 +1,5 @@
 {
-    "cleanPath":"./data",
+    "cleanPath":"/Users/ywade/Desktop/01磁盘管理_游伟东/data",
     "maxValue": 2000,
     "unit": "M",
     "deleteFileExtension": ["pdf", "png"],
