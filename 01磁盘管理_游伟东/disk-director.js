@@ -27,7 +27,9 @@ function diskDirector(configPath) {
                 getDiskUsed().then(function (usedSizeG) {
                     // 如果已用空间超过配置文件设置的值，则执行清理文件操作
                     if (usedSizeG > maxValueG) {
-                        console.log('清理后，磁盘已占空间仍然大于设定值！');
+                        alert('清理后，磁盘已占空间仍然大于设定值！');
+                    } else{
+                        alert(`清理文件成功！目前已使用空间：${usedSizeG}G`);
                     }
                 });
             });
