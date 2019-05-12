@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Popup</title>
+    <style>
+        *{font-family:"Microsoft Yahei","Monaco",sans-serif;font-size:13px;}
+        button{cursor:pointer;padding:2px 4px 4px 4px;border:1px gray solid;background:none;}
+        #wrapper{width:240px;height:120px;padding:0 12px;margin:auto;}
+        #wrapper .clear{color: #fff;background-color: #d9534f;border-color:#d43f3a;}
+        #waitingForClear{clear:both;display:inline-block;margin-top:4px;background:yellow;}
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <p>Welcome to use Amazon Seller picker!</p>
+        <button class="clear" id="clearCache">Clear All Sellers From Cache</button>
+        <span id="waitingForClear"></span>
+    </div>
+</body>
+<script type="text/javascript" src="scripts/popup.js"></script>
+</html>
